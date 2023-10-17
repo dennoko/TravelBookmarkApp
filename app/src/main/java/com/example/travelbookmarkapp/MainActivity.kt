@@ -29,6 +29,7 @@ class MainActivity : ComponentActivity() {
     }
 }//うおおおおおおおおおおおおおおおおおおおおおおおおおおおおおお
 //俺は人間をやめるぞおおおおおお！！！！！
+// ジョジョーーーーーー！！！！
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
