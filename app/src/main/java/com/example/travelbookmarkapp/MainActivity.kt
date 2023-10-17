@@ -22,26 +22,12 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+
                 }
             }
         }
     }
 }//うおおおおおおおおおおおおおおおおおおおおおおおおおおおおおお
 //俺は人間をやめるぞおおおおおお！！！！！
+// ジョジョーーーーーー！！！！
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!", //Hello Android!を表示
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    TravelBookmarkAppTheme {
-        Greeting("Android")
-    }
-}
