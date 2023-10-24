@@ -10,6 +10,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.travelbookmarkapp.ui.theme.TravelBookmarkAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,25 +25,19 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    //画面遷移用のコード
+                    val navController = rememberNavController()
+
+                    NavHost(navController = navController, startDestination = "main") {
+                        composable("main") {
+                            // MainScreen.ktの@Composable関数を呼び出す
+                        }
+                    }
                 }
             }
         }
     }
-}
+}//うおおおおおおおおおおおおおおおおおおおおおおおおおおおおおお
+//俺は人間をやめるぞおおおおおお！！！！！
+// ジョジョーーーーーー！！！！
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    TravelBookmarkAppTheme {
-        Greeting("Android")
-    }
-}
