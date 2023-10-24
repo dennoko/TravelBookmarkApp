@@ -29,9 +29,7 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
 
                     NavHost(navController = navController, startDestination = "main") {
-                        composable("main") {
-                            // MainScreen.ktの@Composable関数を呼び出す
-                        }
+                        composable("main") { /* ここに画面のコンポーザブル関数を書く ここではMainScreen.ktのMainScreen()を呼び出している */ }
                     }
                 }
             }
