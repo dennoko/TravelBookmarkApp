@@ -31,6 +31,7 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(navController = navController, startDestination = "test") {
                         composable("test") { TestScreen(navController = navController) }
+
                     }
                 }
             }
