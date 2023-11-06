@@ -16,8 +16,8 @@ fun TestScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(16.dp))
 
         // 画面遷移用のコード route と Text に遷移先の名前を入れる 名前はMainActivityで定義したもの
-        Button(onClick = { navController.navigate("") }) {
-            Text(text = "")
+        Button(onClick = { navController.navigate("inputschedule") }) {
+            Text(text = "Input Shedule Screen")
         }
     }
 }

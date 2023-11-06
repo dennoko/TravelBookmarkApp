@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.travelbookmarkapp.screen.InputSchedule
 import com.example.travelbookmarkapp.screen.TestScreen
 import com.example.travelbookmarkapp.ui.theme.TravelBookmarkAppTheme
 
@@ -32,7 +33,7 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(navController = navController, startDestination = "test") {
                         composable("test") { TestScreen(navController = navController) }
-
+                        composable("inputschedule") { InputSchedule(navController = navController) }
                     }
                 }
             }
