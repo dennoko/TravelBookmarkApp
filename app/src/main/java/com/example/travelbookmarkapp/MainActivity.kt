@@ -3,6 +3,7 @@ package com.example.travelbookmarkapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -13,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.travelbookmarkapp.screen.TestScreen
 import com.example.travelbookmarkapp.ui.theme.TravelBookmarkAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -28,16 +30,17 @@ class MainActivity : ComponentActivity() {
                     //画面遷移用のコード
                     val navController = rememberNavController()
 
-                    NavHost(navController = navController, startDestination = "main") {
-                        composable("main") {
-                            // MainScreen.ktの@Composable関数を呼び出す
-                        }
+                    NavHost(navController = navController, startDestination = "test") {
+                        composable("test") { TestScreen(navController = navController) }
+
                     }
                 }
             }
         }
     }
-}//うおおおおおおおおおおおおおおおおおおおおおおおおおおおおおお
+}//うおおおおおおおおおおおおおおおおおおおおお
 //俺は人間をやめるぞおおおおおお！！！！！
 // ジョジョーーーーーー！！！！
+
+
 
