@@ -138,6 +138,19 @@ fun InputSchedule() {
                 }
             }
         }
+
+        Row (
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ){
+            Button(onClick = { /*TravelListに移動*/ }) {
+                Text(text = "戻る")
+            }
+
+            Button(onClick = { /*最終確認画面に移動*/ }) {
+                Text(text = "次へ")
+            }
+        }
     }
 
 }
