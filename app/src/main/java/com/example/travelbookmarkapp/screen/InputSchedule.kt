@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
@@ -20,11 +21,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.travelbookmarkapp.ui_components.DateTextField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,87 +41,68 @@ fun InputSchedule(navController: NavController) {
     var depYear by remember { mutableStateOf("") }
     var depMonth by remember { mutableStateOf("") }
     var depDay by remember { mutableStateOf("") }
+    var depHour by remember { mutableStateOf("") }
+    var depMinute by remember { mutableStateOf("") }
     var destination by remember { mutableStateOf("") }
     var desYear by remember { mutableStateOf("") }
     var desMonth by remember { mutableStateOf("") }
     var desDay by remember { mutableStateOf("") }
+    var desHour by remember { mutableStateOf("") }
+    var desMinute by remember { mutableStateOf("") }
     var todoTitle by remember { mutableStateOf("") }
     var todoList by remember { mutableStateOf(mutableListOf("todo1", "todo2")) }
+
+    val screenWidth = LocalConfiguration.current.screenWidthDp
 
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        //旅行タイトル
         OutlinedTextField(
             value = title,
             onValueChange = { title = it },
             label = { Text("タイトル") }
         )
 
+        //出発地の入力欄
         OutlinedTextField(
             value = departure,
             onValueChange = { departure = it },
             label = { Text("出発地") }
         )
 
+        //出発日時の入力欄
         Row (
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
-
         ){
-            OutlinedTextField(
-                value = depYear,
-                onValueChange = { depYear = it },
-                label = { Text("年") },
-                modifier = Modifier.weight(1f)
-            )
 
-            OutlinedTextField(
-                value = depMonth,
-                onValueChange = { depMonth = it },
-                label = { Text("月") },
-                modifier = Modifier.weight(1f)
-            )
-
-            OutlinedTextField(
-                value = depDay,
-                onValueChange = { depDay = it },
-                label = { Text("日") },
-                modifier = Modifier.weight(1f)
-            )
+            DateTextField(value = depYear, onValueChange = {depYear = it}, label = "年", screenWidth = screenWidth)
+            DateTextField(value = depMonth, onValueChange = {depMonth = it}, label = "月", screenWidth = screenWidth)
+            DateTextField(value = depDay, onValueChange = {depDay = it}, label = "日", screenWidth = screenWidth)
+            DateTextField(value = depHour, onValueChange = {depHour = it}, label = "時", screenWidth = screenWidth)
+            DateTextField(value = depMinute, onValueChange = {depMinute = it}, label = "分", screenWidth = screenWidth)
         }
 
+        //目的地の入力欄
         OutlinedTextField(
             value = destination,
             onValueChange = { destination = it },
             label = { Text("目的地") }
         )
 
+        //到着日時の入力欄
         Row (
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
 
         ) {
-            OutlinedTextField(
-                value = desYear,
-                onValueChange = { desYear = it },
-                label = { Text("年") },
-                modifier = Modifier.weight(1f)
-            )
-
-            OutlinedTextField(
-                value = desMonth,
-                onValueChange = { desMonth = it },
-                label = { Text("月") },
-                modifier = Modifier.weight(1f)
-            )
-
-            OutlinedTextField(
-                value = desDay,
-                onValueChange = { desDay = it },
-                label = { Text("日") },
-                modifier = Modifier.weight(1f)
-            )
+            DateTextField(value = desYear, onValueChange = {desYear = it}, label = "年", screenWidth = screenWidth)
+            DateTextField(value = desMonth, onValueChange = {desMonth = it}, label = "月", screenWidth = screenWidth)
+            DateTextField(value = desDay, onValueChange = {desDay = it}, label = "日", screenWidth = screenWidth)
+            DateTextField(value = desHour, onValueChange = {desHour = it}, label = "時", screenWidth = screenWidth)
+            DateTextField(value = desMinute, onValueChange = {desMinute = it}, label = "分", screenWidth = screenWidth)
         }
 
         Text(text = "TODOリスト")
@@ -130,6 +117,7 @@ fun InputSchedule(navController: NavController) {
             Text(text = "追加")
         }
 
+        //TODOリストを表示
         LazyColumn() {
             items(todoList) { todo ->
                 Row {
