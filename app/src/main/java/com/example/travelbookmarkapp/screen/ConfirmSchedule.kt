@@ -15,9 +15,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun ConfirmSchedule() {
+fun ConfirmSchedule(navController: NavController) {
 
     var title = ""
     var departure = ""
@@ -52,11 +54,13 @@ fun ConfirmSchedule() {
         Text(text = "この内容で登録しますか？")
 
         Row {
-            Button(onClick = { /*TravelListに移動*/ }) {
+            //InputScheduleに移動。データ渡しは未実装
+            Button(onClick = { navController.navigate("inputschedule") }) {
                 Text(text = "やめる")
             }
 
-            Button(onClick = { /*データを保存＆TravelListに移動*/ }) {
+            //TravelListに移動。データ保存は未実装
+            Button(onClick = { navController.navigate("travellist") }) {
                 Text(text = "登録")
             }
         }
@@ -66,5 +70,5 @@ fun ConfirmSchedule() {
 @Preview(showBackground = true)
 @Composable
 private fun PreviewConfirmSchedule() {
-    ConfirmSchedule()
+    ConfirmSchedule(navController = rememberNavController())
 }
