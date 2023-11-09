@@ -50,7 +50,7 @@ fun InputSchedule(navController: NavController) {
     var desHour by remember { mutableStateOf("") }
     var desMinute by remember { mutableStateOf("") }
     var todoTitle by remember { mutableStateOf("") }
-    var todoList by remember { mutableStateOf(mutableListOf("todo1", "todo2")) }
+    var todoList by remember { mutableStateOf(listOf("todo1", "todo2")) }
 
     val screenWidth = LocalConfiguration.current.screenWidthDp
 
@@ -113,7 +113,11 @@ fun InputSchedule(navController: NavController) {
             label = { Text("TODO") }
         )
 
-        Button(onClick = { /*TODOを追加*/ }) {
+        //todoListにTODOを追加する
+        Button(onClick = {
+            todoList = todoList.toMutableList().apply { add(todoTitle) }
+            todoTitle = ""
+        }) {
             Text(text = "追加")
         }
 
@@ -122,7 +126,10 @@ fun InputSchedule(navController: NavController) {
             items(todoList) { todo ->
                 Row {
                     Text(text = todo, fontSize = 25.sp)
-                    Button(onClick = { /*TODOを削除*/ }) {
+                    //TODOを削除する
+                    Button(onClick = {
+                        todoList = todoList.toMutableList().apply { remove(todo) }
+                    }) {
                         Text(text = "削除")
                     }
                 }
