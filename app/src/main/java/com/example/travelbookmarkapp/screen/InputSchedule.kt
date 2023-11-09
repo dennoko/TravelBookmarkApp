@@ -115,8 +115,10 @@ fun InputSchedule(navController: NavController) {
 
         //todoListにTODOを追加する
         Button(onClick = {
-            todoList = todoList.toMutableList().apply { add(todoTitle) }
-            todoTitle = ""
+            if (todoTitle.isNotEmpty()){
+                todoList = todoList.toMutableList().apply { add(todoTitle) }
+                todoTitle = ""
+            }
         }) {
             Text(text = "追加")
         }
