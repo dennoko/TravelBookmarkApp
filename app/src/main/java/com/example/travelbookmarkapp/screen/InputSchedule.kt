@@ -133,11 +133,13 @@ fun InputSchedule(navController: NavController) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ){
-            Button(onClick = { /*TravelListに移動*/ }) {
+            //TravelListに移動
+            Button(onClick = { navController.navigate("travellist") }) {
                 Text(text = "戻る")
             }
 
-            Button(onClick = { /*最終確認画面に移動*/ }) {
+            //ConfirmScheduleに移動。データ渡しは未実装
+            Button(onClick = { navController.navigate("confirmschedule") }) {
                 Text(text = "次へ")
             }
         }
