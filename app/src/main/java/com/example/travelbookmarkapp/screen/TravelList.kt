@@ -27,11 +27,9 @@ fun TravelList(navController: NavController) {
         Modifier.fillMaxSize(),
         horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
     ) {
-        LazyColumn {
+        LazyColumn(Modifier.clickable { /*完成した予定の画面に移動*/ }) {
             items(travelList) { title ->
-                Text(text = title,
-                    Modifier.clickable { /*完成した予定の画面に移動*/  }
-                )
+                Text(text = title)
             }
         }
 
