@@ -146,7 +146,7 @@ fun InputSchedule(navController: NavController) {
                 Text(text = "戻る")
             }
 
-            //ConfirmScheduleに移動。データ渡しは未実装
+            //ConfirmScheduleにデータを渡しつつ移動
             Button(onClick = {
                 stringTodoList = todoList.joinToString { it }
                 navController.navigate("confirmschedule/$title/$departure/$depYear/$depMonth/$depDay/$depHour/$depMinute/$destination/$desYear/$desMonth/$desDay/$desHour/$desMinute/$stringTodoList") },
