@@ -36,6 +36,7 @@ import com.example.travelbookmarkapp.ui_components.DateTextField
 @Composable
 fun InputSchedule(navController: NavController) {
 
+    //変数の定義
     var title by remember { mutableStateOf("") }
     var departure by remember { mutableStateOf("") }
     var depYear by remember { mutableStateOf("") }
@@ -51,8 +52,14 @@ fun InputSchedule(navController: NavController) {
     var desMinute by remember { mutableStateOf("") }
     var todoTitle by remember { mutableStateOf("") }
     var todoList by remember { mutableStateOf(mutableListOf("todo1", "todo2")) }
+    var stringTodoList = ""
 
     val screenWidth = LocalConfiguration.current.screenWidthDp
+
+    var allNotEmpty = false
+    allNotEmpty = title.isNotEmpty() && departure.isNotEmpty() && depYear.isNotEmpty() && depMonth.isNotEmpty()
+            && depDay.isNotEmpty() && depHour.isNotEmpty() && depMinute.isNotEmpty() && destination.isNotEmpty()
+            && desYear.isNotEmpty() && desMonth.isNotEmpty() && desDay.isNotEmpty() && desHour.isNotEmpty() && desMinute.isNotEmpty()
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -129,6 +136,7 @@ fun InputSchedule(navController: NavController) {
             }
         }
 
+        //戻るボタンと次へボタン
         Row (
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
@@ -139,7 +147,11 @@ fun InputSchedule(navController: NavController) {
             }
 
             //ConfirmScheduleに移動。データ渡しは未実装
-            Button(onClick = { navController.navigate("confirmschedule") }) {
+            Button(onClick = {
+                stringTodoList = todoList.joinToString { it }
+                navController.navigate("confirmschedule/$title/$departure/$depYear/$depMonth/$depDay/$depHour/$depMinute/$destination/$desYear/$desMonth/$desDay/$desHour/$desMinute/$stringTodoList") },
+                enabled = allNotEmpty
+            ) {
                 Text(text = "次へ")
             }
         }
