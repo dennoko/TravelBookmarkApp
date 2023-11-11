@@ -52,6 +52,7 @@ fun InputSchedule(navController: NavController) {
     var desMinute by remember { mutableStateOf("") }
     var todoTitle by remember { mutableStateOf("") }
     var todoList by remember { mutableStateOf(listOf("todo1", "todo2")) }
+
     var stringTodoList = ""
 
     val screenWidth = LocalConfiguration.current.screenWidthDp
