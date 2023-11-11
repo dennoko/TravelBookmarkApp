@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.travelbookmarkapp.screen.ConfirmSchedule
 import com.example.travelbookmarkapp.screen.InputSchedule
 import com.example.travelbookmarkapp.screen.TestScreen
@@ -37,7 +38,25 @@ class MainActivity : ComponentActivity() {
                         composable("test") { TestScreen(navController = navController) }
                         composable("inputschedule") { InputSchedule(navController = navController) }
                         composable("travellist") { TravelList(navController = navController) }
-                        composable("confirmschedule") { ConfirmSchedule(navController = navController) }
+                        composable(
+                            "confirmschedule/{title}/{departure}/{depYear}/{depMonth}/{depDay}/{depHour}/{depMinute}/{destination}/{desYear}/{desMonth}/{desDay}/{desHour}/{desMinute}/{todoList}",
+                            arguments = listOf(
+                                navArgument("title") { defaultValue = "" },
+                                navArgument("departure") { defaultValue = "" },
+                                navArgument("depYear") { defaultValue = "" },
+                                navArgument("depMonth") { defaultValue = "" },
+                                navArgument("depDay") { defaultValue = "" },
+                                navArgument("depHour") { defaultValue = "" },
+                                navArgument("depMinute") { defaultValue = "" },
+                                navArgument("destination") { defaultValue = "" },
+                                navArgument("desYear") { defaultValue = "" },
+                                navArgument("desMonth") { defaultValue = "" },
+                                navArgument("desDay") { defaultValue = "" },
+                                navArgument("desHour") { defaultValue = "" },
+                                navArgument("desMinute") { defaultValue = "" },
+                                navArgument("todoList") { defaultValue = "" }
+                            )
+                        ) { ConfirmSchedule(navController = navController) }
                     }
                 }
             }
