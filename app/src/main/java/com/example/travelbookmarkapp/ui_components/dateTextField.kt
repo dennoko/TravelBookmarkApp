@@ -24,5 +24,6 @@ fun DateTextField(value: String, onValueChange: (String) -> Unit, label: String,
         label = { Text(text = label) },
         modifier = Modifier.width(screenWidth.dp / 5),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        singleLine = true
     )
 }

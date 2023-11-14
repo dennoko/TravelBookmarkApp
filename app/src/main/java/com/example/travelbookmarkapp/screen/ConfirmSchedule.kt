@@ -16,25 +16,29 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun ConfirmSchedule(navController: NavController) {
 
-    var title = ""
-    var departure = ""
-    var depYear = ""
-    var depMonth = ""
-    var depDay = ""
-    var depHour = ""
-    var depMinute = ""
-    var destination = ""
-    var desYear = ""
-    var desMonth = ""
-    var desDay = ""
-    var desHour = ""
-    var desMinute = ""
-    var todoList = mutableListOf("todo1", "todo2")
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val arguments = navBackStackEntry?.arguments
+
+    val title = arguments?.getString("title") ?: ""
+    val departure = arguments?.getString("departure") ?: ""
+    val depYear = arguments?.getString("depYear") ?: ""
+    val depMonth = arguments?.getString("depMonth") ?: ""
+    val depDay = arguments?.getString("depDay") ?: ""
+    val depHour = arguments?.getString("depHour") ?: ""
+    val depMinute = arguments?.getString("depMinute") ?: ""
+    val destination = arguments?.getString("destination") ?: ""
+    val desYear = arguments?.getString("desYear") ?: ""
+    val desMonth = arguments?.getString("desMonth") ?: ""
+    val desDay = arguments?.getString("desDay") ?: ""
+    val desHour = arguments?.getString("desHour") ?: ""
+    val desMinute = arguments?.getString("desMinute") ?: ""
+    val todoList = arguments?.getString("todoList")?.split(", ") ?: listOf("")
 
     Column (
         modifier = Modifier.fillMaxSize()
