@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,13 +19,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.travelbookmarkapp.firebase_components.FirestoreViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun ConfirmSchedule(navController: NavController) {
+    val scope = rememberCoroutineScope()
+    val viewModel = remember { FirestoreViewModel() }
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val arguments = navBackStackEntry?.arguments
 
+    // InputScheduleで入力したデータを取得
     val title = arguments?.getString("title") ?: ""
     val departure = arguments?.getString("departure") ?: ""
     val depYear = arguments?.getString("depYear") ?: ""
@@ -64,7 +70,27 @@ fun ConfirmSchedule(navController: NavController) {
             }
 
             //TravelListに移動。データ保存は未実装
-            Button(onClick = { navController.navigate("travellist") }) {
+            Button(onClick = {
+                scope.launch {
+                    viewModel.saveTravelDataToFirestore(
+                        title = title,
+                        departure = departure,
+                        depYear = depYear,
+                        depMonth = depMonth,
+                        depDay = depDay,
+                        depHour = depHour,
+                        depMinute = depMinute,
+                        destination = destination,
+                        desYear = desYear,
+                        desMonth = desMonth,
+                        desDay = desDay,
+                        desHour = desHour,
+                        desMinute = desMinute,
+                        todoList = todoList
+                    )
+                }
+                navController.navigate("travellist")
+            }) {
                 Text(text = "登録")
             }
         }
