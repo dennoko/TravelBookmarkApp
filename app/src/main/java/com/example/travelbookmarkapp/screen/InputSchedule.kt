@@ -40,19 +40,19 @@ fun InputSchedule(navController: NavController) {
 
     var title by remember { mutableStateOf("") }
     var departure by remember { mutableStateOf("") }
-    var depYear by remember { mutableStateOf("") }
+    var depYear by remember { mutableStateOf("2023") }
     var depMonth by remember { mutableStateOf("") }
     var depDay by remember { mutableStateOf("") }
     var depHour by remember { mutableStateOf("") }
     var depMinute by remember { mutableStateOf("") }
     var destination by remember { mutableStateOf("") }
-    var desYear by remember { mutableStateOf("") }
+    var desYear by remember { mutableStateOf("2023") }
     var desMonth by remember { mutableStateOf("") }
     var desDay by remember { mutableStateOf("") }
     var desHour by remember { mutableStateOf("") }
     var desMinute by remember { mutableStateOf("") }
     var todoTitle by remember { mutableStateOf("") }
-    var todoList by remember { mutableStateOf(listOf("todo1", "todo2")) }
+    var todoList by remember { mutableStateOf(listOf<String>()) }
     var stringTodoList = ""
 
     val screenWidth = LocalConfiguration.current.screenWidthDp
