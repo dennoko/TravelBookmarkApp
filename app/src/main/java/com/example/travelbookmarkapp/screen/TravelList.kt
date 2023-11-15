@@ -21,14 +21,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.travelbookmarkapp.firebase_components.FirestoreViewModel
+import com.example.travelbookmarkapp.firebase_components.loadTravelListViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun TravelList(navController: NavController) {
-    val viewModel = remember { FirestoreViewModel() }
+    val viewModel = remember { loadTravelListViewModel() }
 
     // 旅行のデータを格納するリスト
-    var travelList by remember { mutableStateOf(listOf<FirestoreViewModel.travelListData>()) }
+    var travelList by remember { mutableStateOf(listOf<loadTravelListViewModel.TravelListData>()) }
 
     //非同期でFirestoreからTravelDataを取得
     LaunchedEffect(true) {
@@ -44,7 +45,12 @@ fun TravelList(navController: NavController) {
             LazyColumn{
                 items(travelList) { travelData ->
                     Row (
-                        modifier = Modifier.clickable{ /* ドキュメントID("年月日時分タイトル")を渡しつつ完成した旅行の予定の画面に移動 */ }
+                        modifier = Modifier.clickable{
+                            // 選択した旅行のデータをScheduleDetailに渡しつつ画面遷移
+                            navController.navigate(
+                                "scheduledetail/${travelData.title}/${travelData.departure}/${travelData.depYear}/${travelData.depMonth}/${travelData.depDay}/${travelData.depHour}/${travelData.depMinute}/${travelData.destination}/${travelData.desYear}/${travelData.desMonth}/${travelData.desDay}/${travelData.desHour}/${travelData.desMinute}/${travelData.todoList.joinToString { it }}/${travelData.documentID}"
+                            )
+                        }
                     ) {
                         Text(text = travelData.title)
                         Text(text = "：")

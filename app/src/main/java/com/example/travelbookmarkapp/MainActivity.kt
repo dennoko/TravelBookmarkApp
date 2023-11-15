@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.travelbookmarkapp.screen.ConfirmSchedule
 import com.example.travelbookmarkapp.screen.InputSchedule
+import com.example.travelbookmarkapp.screen.ScheduleDetail
 import com.example.travelbookmarkapp.screen.TestScreen
 import com.example.travelbookmarkapp.screen.TravelList
 import com.example.travelbookmarkapp.ui.theme.TravelBookmarkAppTheme
@@ -34,7 +35,7 @@ class MainActivity : ComponentActivity() {
                     //画面遷移用のコード
                     val navController = rememberNavController()
 
-                    NavHost(navController = navController, startDestination = "test") {
+                    NavHost(navController = navController, startDestination = "travellist") {
                         composable("test") { TestScreen(navController = navController) }
                         composable("inputschedule") { InputSchedule(navController = navController) }
                         composable("travellist") { TravelList(navController = navController) }
@@ -57,6 +58,26 @@ class MainActivity : ComponentActivity() {
                                 navArgument("todoList") { defaultValue = "" }
                             )
                         ) { ConfirmSchedule(navController = navController) }
+                        composable(
+                            "scheduledetail/{title}/{departure}/{depYear}/{depMonth}/{depDay}/{depHour}/{depMinute}/{destination}/{desYear}/{desMonth}/{desDay}/{desHour}/{desMinute}/{todoList}/{documentID}",
+                            arguments = listOf(
+                                navArgument("title") { defaultValue = "" },
+                                navArgument("departure") { defaultValue = "" },
+                                navArgument("depYear") { defaultValue = "" },
+                                navArgument("depMonth") { defaultValue = "" },
+                                navArgument("depDay") { defaultValue = "" },
+                                navArgument("depHour") { defaultValue = "" },
+                                navArgument("depMinute") { defaultValue = "" },
+                                navArgument("destination") { defaultValue = "" },
+                                navArgument("desYear") { defaultValue = "" },
+                                navArgument("desMonth") { defaultValue = "" },
+                                navArgument("desDay") { defaultValue = "" },
+                                navArgument("desHour") { defaultValue = "" },
+                                navArgument("desMinute") { defaultValue = "" },
+                                navArgument("todoList") { defaultValue = "" },
+                                navArgument("documentID") { defaultValue = "" }
+                            )
+                        ) { ScheduleDetail(navController = navController)}
                     }
                 }
             }
