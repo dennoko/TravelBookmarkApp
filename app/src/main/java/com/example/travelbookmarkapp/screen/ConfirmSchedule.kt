@@ -11,30 +11,40 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.travelbookmarkapp.firebase_components.FirestoreViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun ConfirmSchedule(navController: NavController) {
+    val scope = rememberCoroutineScope()
+    val viewModel = remember { FirestoreViewModel() }
 
-    var title = ""
-    var departure = ""
-    var depYear = ""
-    var depMonth = ""
-    var depDay = ""
-    var depHour = ""
-    var depMinute = ""
-    var destination = ""
-    var desYear = ""
-    var desMonth = ""
-    var desDay = ""
-    var desHour = ""
-    var desMinute = ""
-    var todoList = mutableListOf("todo1", "todo2")
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val arguments = navBackStackEntry?.arguments
+
+    // InputScheduleで入力したデータを取得
+    val title = arguments?.getString("title") ?: ""
+    val departure = arguments?.getString("departure") ?: ""
+    val depYear = arguments?.getString("depYear") ?: ""
+    val depMonth = arguments?.getString("depMonth") ?: ""
+    val depDay = arguments?.getString("depDay") ?: ""
+    val depHour = arguments?.getString("depHour") ?: ""
+    val depMinute = arguments?.getString("depMinute") ?: ""
+    val destination = arguments?.getString("destination") ?: ""
+    val desYear = arguments?.getString("desYear") ?: ""
+    val desMonth = arguments?.getString("desMonth") ?: ""
+    val desDay = arguments?.getString("desDay") ?: ""
+    val desHour = arguments?.getString("desHour") ?: ""
+    val desMinute = arguments?.getString("desMinute") ?: ""
+    val todoList = arguments?.getString("todoList")?.split(", ") ?: listOf("")
 
     Column (
         modifier = Modifier.fillMaxSize()
@@ -60,7 +70,27 @@ fun ConfirmSchedule(navController: NavController) {
             }
 
             //TravelListに移動。データ保存は未実装
-            Button(onClick = { navController.navigate("travellist") }) {
+            Button(onClick = {
+                scope.launch {
+                    viewModel.saveTravelDataToFirestore(
+                        title = title,
+                        departure = departure,
+                        depYear = depYear,
+                        depMonth = depMonth,
+                        depDay = depDay,
+                        depHour = depHour,
+                        depMinute = depMinute,
+                        destination = destination,
+                        desYear = desYear,
+                        desMonth = desMonth,
+                        desDay = desDay,
+                        desHour = desHour,
+                        desMinute = desMinute,
+                        todoList = todoList
+                    )
+                }
+                navController.navigate("travellist")
+            }) {
                 Text(text = "登録")
             }
         }
