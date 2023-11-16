@@ -3,8 +3,10 @@ package com.example.travelbookmarkapp.screen
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -18,10 +20,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.travelbookmarkapp.firebase_components.FirestoreViewModel
 import com.example.travelbookmarkapp.firebase_components.loadTravelListViewModel
+import com.example.travelbookmarkapp.ui_components.DefaultButton
+import com.example.travelbookmarkapp.ui_components.TravelItem
 import kotlinx.coroutines.launch
 
 @Composable
@@ -41,6 +46,7 @@ fun TravelList(navController: NavController) {
         Modifier.fillMaxSize(),
         horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
     ) {
+        Spacer(modifier = Modifier.height(16.dp))
         if (travelList.isNotEmpty()) {
             LazyColumn{
                 items(travelList) { travelData ->
@@ -52,9 +58,7 @@ fun TravelList(navController: NavController) {
                             )
                         }
                     ) {
-                        Text(text = travelData.title)
-                        Text(text = "：")
-                        Text(text = "${travelData.depYear}年${travelData.depMonth}月${travelData.depDay}日")
+                        TravelItem(txt = "${travelData.title}: ${travelData.depYear}年${travelData.depMonth}月${travelData.depDay}日", padding = 8)
                     }
                 }
             }
@@ -64,9 +68,7 @@ fun TravelList(navController: NavController) {
         }
 
         //InputScheduleに移動
-        Button(onClick = { navController.navigate("inputschedule") }) {
-            Text(text = "add new travel")
-        }
+        DefaultButton(txt = "add new travel") { navController.navigate("inputschedule") }
     }
 }
 
