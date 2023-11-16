@@ -19,5 +19,9 @@ fun TestScreen(navController: NavController) {
         Button(onClick = { navController.navigate("inputschedule") }) {
             Text(text = "Input Shedule Screen")
         }
+
+        Button(onClick = { navController.navigate("r_GoogleMap")}) {
+            Text(text = "Move To GoogleMap")
+        }
     }
 }
