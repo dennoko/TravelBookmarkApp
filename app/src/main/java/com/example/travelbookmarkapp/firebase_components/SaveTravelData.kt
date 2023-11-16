@@ -1,13 +1,11 @@
 package com.example.travelbookmarkapp.firebase_components
 
 import android.util.Log
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
-class FirestoreViewModel : ViewModel() {
+class SaveTravelDataViewModel : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
     private val dataCollection = db.collection("travelData")
 

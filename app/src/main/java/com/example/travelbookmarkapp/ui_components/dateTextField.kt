@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -22,6 +23,19 @@ fun DateTextField(value: String, onValueChange: (String) -> Unit, label: String,
         value = value,
         onValueChange = onValueChange,
         label = { Text(text = label) },
+        modifier = Modifier.width(screenWidth.dp / 5),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        singleLine = true
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun EditDateTextField(value: String, onValueChange: (String) -> Unit, label: String, screenWidth: Int) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(text = label, fontSize = 14.sp) },
         modifier = Modifier.width(screenWidth.dp / 5),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         singleLine = true
