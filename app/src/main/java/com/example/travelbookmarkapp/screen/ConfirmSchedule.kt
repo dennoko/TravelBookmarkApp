@@ -64,12 +64,12 @@ fun ConfirmSchedule(navController: NavController) {
         Text(text = "この内容で登録しますか？")
 
         Row {
-            //InputScheduleに移動。データ渡しは未実装
+            //InputScheduleに移動
             Button(onClick = { navController.popBackStack() }) {
                 Text(text = "やめる")
             }
 
-            //TravelListに移動。データ保存は未実装
+            //データを保存してTravelListに移動
             Button(onClick = {
                 scope.launch {
                     viewModel.saveTravelDataToFirestore(

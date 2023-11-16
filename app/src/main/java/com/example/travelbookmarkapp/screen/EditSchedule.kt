@@ -175,7 +175,7 @@ fun EditSchedule(navController: NavController) {
                 Text(text = "戻る")
             }
 
-            //ConfirmScheduleにデータを渡しつつ移動
+            //ConfirmEditScheduleにデータを渡しつつ移動
             Button(onClick = {
                 //日付や時刻が一桁の場合は0を追加する
                 if (depMonth.length == 1) depMonth = "0$depMonth"
