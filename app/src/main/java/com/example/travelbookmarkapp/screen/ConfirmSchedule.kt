@@ -19,13 +19,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.travelbookmarkapp.firebase_components.FirestoreViewModel
+import com.example.travelbookmarkapp.firebase_components.saveTravelDataViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun ConfirmSchedule(navController: NavController) {
     val scope = rememberCoroutineScope()
-    val viewModel = remember { FirestoreViewModel() }
+    val viewModel = remember { saveTravelDataViewModel() }
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val arguments = navBackStackEntry?.arguments

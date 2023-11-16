@@ -31,14 +31,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.travelbookmarkapp.ui_components.DateTextField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InputSchedule(navController: NavController) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val arguments = navBackStackEntry?.arguments
 
-    var title by remember { mutableStateOf("") }
+    //入力されたデータを保持する変数
+    var title by remember { mutableStateOf(arguments?.getString("title").toString()) }
     var departure by remember { mutableStateOf("") }
     var depYear by remember { mutableStateOf("2023") }
     var depMonth by remember { mutableStateOf("") }
@@ -53,9 +57,26 @@ fun InputSchedule(navController: NavController) {
     var desMinute by remember { mutableStateOf("") }
     var todoTitle by remember { mutableStateOf("") }
     var todoList by remember { mutableStateOf(listOf<String>()) }
-    var stringTodoList = ""
 
     val screenWidth = LocalConfiguration.current.screenWidthDp
+
+    //もし編集画面から渡されたデータがあればそれを表示する
+
+    departure = arguments?.getString("departure").toString()
+    depYear = arguments?.getString("depYear").toString()
+    depMonth = arguments?.getString("depMonth").toString()
+    depDay = arguments?.getString("depDay").toString()
+    depHour = arguments?.getString("depHour").toString()
+    depMinute = arguments?.getString("depMinute").toString()
+    destination = arguments?.getString("destination").toString()
+    desYear = arguments?.getString("desYear").toString()
+    desMonth = arguments?.getString("desMonth").toString()
+    desDay = arguments?.getString("desDay").toString()
+    desHour = arguments?.getString("desHour").toString()
+    desMinute = arguments?.getString("desMinute").toString()
+    todoList = arguments?.getString("todoList").toString().split(", ")
+    val documentID = arguments?.getString("documentID").toString()
+
 
     //全ての入力欄が空でないかどうか
     var allNotEmpty = title.isNotEmpty() && departure.isNotEmpty() && depYear.isNotEmpty() && depMonth.isNotEmpty()
@@ -171,8 +192,7 @@ fun InputSchedule(navController: NavController) {
                 if (desHour.length == 1) desHour = "0$desHour"
                 if (desMinute.length == 1) desMinute = "0$desMinute"
 
-                stringTodoList = todoList.joinToString { it }
-                navController.navigate("confirmschedule/$title/$departure/$depYear/$depMonth/$depDay/$depHour/$depMinute/$destination/$desYear/$desMonth/$desDay/$desHour/$desMinute/$stringTodoList") },
+                navController.navigate("confirmschedule/$title/$departure/$depYear/$depMonth/$depDay/$depHour/$depMinute/$destination/$desYear/$desMonth/$desDay/$desHour/$desMinute/${todoList.joinToString { it }}") },
                 enabled = allNotEmpty
             ) {
                 Text(text = "次へ")

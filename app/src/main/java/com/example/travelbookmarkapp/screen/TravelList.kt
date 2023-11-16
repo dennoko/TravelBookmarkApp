@@ -20,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.travelbookmarkapp.firebase_components.FirestoreViewModel
 import com.example.travelbookmarkapp.firebase_components.loadTravelListViewModel
 import kotlinx.coroutines.launch
 
@@ -64,7 +63,7 @@ fun TravelList(navController: NavController) {
         }
 
         //InputScheduleに移動
-        Button(onClick = { navController.navigate("inputschedule") }) {
+        Button(onClick = { navController.navigate("inputschedule/ / / / / / / / / / / / / / / ") }) {
             Text(text = "add new travel")
         }
     }
