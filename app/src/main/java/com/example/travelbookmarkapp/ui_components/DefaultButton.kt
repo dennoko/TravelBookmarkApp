@@ -19,7 +19,7 @@ fun DefaultButton(txt: String, todo : () -> Unit) {
         onClick = { todo() },
         modifier = Modifier
             .padding(4.dp),
-        shape = RoundedCornerShape(4.dp)
+        shape = RoundedCornerShape(8.dp)
         ) {
         Text(text = txt)
     }

@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
-class FirestoreViewModel : ViewModel() {
+class  FirestoreViewModel : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
     private val dataCollection = db.collection("travelData")
 
