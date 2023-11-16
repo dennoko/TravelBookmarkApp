@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
                     //画面遷移用のコード
                     val navController = rememberNavController()
 
-                    NavHost(navController = navController, startDestination = "travellist") {
+                    NavHost(navController = navController, startDestination = "test") {
                         composable("test") { TestScreen(navController = navController) }
                         composable("inputschedule") { InputSchedule(navController = navController) }
                         composable("travellist") { TravelList(navController = navController) }

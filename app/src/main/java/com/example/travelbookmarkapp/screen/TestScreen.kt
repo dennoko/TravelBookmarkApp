@@ -23,5 +23,9 @@ fun TestScreen(navController: NavController) {
         Button(onClick = { navController.navigate("r_GoogleMap")}) {
             Text(text = "Move To GoogleMap")
         }
+
+        Button(onClick = { navController.navigate("travellist") }) {
+            Text(text = "Travel List Screen")
+        }
     }
 }
