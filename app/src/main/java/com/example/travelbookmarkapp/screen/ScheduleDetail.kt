@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.travelbookmarkapp.firebase_components.DeleteTravelDataViewModel
-import com.example.travelbookmarkapp.firebase_components.FirestoreViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
@@ -45,7 +44,7 @@ fun ScheduleDetail(navController: NavController) {
     val desDay = arguments?.getString("desDay").toString()
     val desHour = arguments?.getString("desHour").toString()
     val desMinute = arguments?.getString("desMinute").toString()
-    val todoList = arguments?.getString("todoList").toString().split(",")
+    val todoList = arguments?.getString("todoList").toString().split(", ")
     val documentID = arguments?.getString("documentID").toString()
 
     Column {
@@ -78,7 +77,9 @@ fun ScheduleDetail(navController: NavController) {
                 Text(text = "削除")
             }
 
-            Button(onClick = { /*編集画面に移動*/ }) {
+            Button(onClick = {
+                navController.navigate("editschedule/${title}/${departure}/${depYear}/${depMonth}/${depDay}/${depHour}/${depMinute}/${destination}/${desYear}/${desMonth}/${desDay}/${desHour}/${desMinute}/${todoList.joinToString { it }}/${documentID}")
+            }) {
                 Text(text = "編集")
             }
         }

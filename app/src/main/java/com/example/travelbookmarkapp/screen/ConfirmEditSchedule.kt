@@ -9,28 +9,25 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
+import com.example.travelbookmarkapp.firebase_components.DeleteTravelDataViewModel
 import com.example.travelbookmarkapp.firebase_components.SaveTravelDataViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun ConfirmSchedule(navController: NavController) {
+fun ConfirmEditSchedule(navController: NavController) {
     val scope = rememberCoroutineScope()
-    val viewModel = remember { SaveTravelDataViewModel() }
+    val saveViewModel = remember { SaveTravelDataViewModel() }
+    val deleteViewModel = remember { DeleteTravelDataViewModel() }
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val arguments = navBackStackEntry?.arguments
 
-    // InputScheduleで入力したデータを取得
+    // EditScheduleで入力したデータを取得
     val title = arguments?.getString("title") ?: ""
     val departure = arguments?.getString("departure") ?: ""
     val depYear = arguments?.getString("depYear") ?: ""
@@ -45,6 +42,7 @@ fun ConfirmSchedule(navController: NavController) {
     val desHour = arguments?.getString("desHour") ?: ""
     val desMinute = arguments?.getString("desMinute") ?: ""
     val todoList = arguments?.getString("todoList")?.split(", ") ?: listOf("")
+    val documentID = arguments?.getString("documentID") ?: ""
 
     Column (
         modifier = Modifier.fillMaxSize()
@@ -61,18 +59,18 @@ fun ConfirmSchedule(navController: NavController) {
             }
         }
 
-        Text(text = "この内容で登録しますか？")
+        Text(text = "この内容に変更しますか？")
 
         Row {
-            //InputScheduleに移動
+            //EditScheduleに移動
             Button(onClick = { navController.popBackStack() }) {
                 Text(text = "やめる")
             }
 
-            //データを保存してTravelListに移動
+            //変更を保存してTravelListに移動
             Button(onClick = {
                 scope.launch {
-                    viewModel.saveTravelDataToFirestore(
+                    saveViewModel.saveTravelDataToFirestore(
                         title = title,
                         departure = departure,
                         depYear = depYear,
@@ -89,16 +87,13 @@ fun ConfirmSchedule(navController: NavController) {
                         todoList = todoList
                     )
                 }
+                scope.launch {
+                    deleteViewModel.deleteTravelDataFromFirestore(documentID)
+                }
                 navController.navigate("travellist")
             }) {
-                Text(text = "登録")
+                Text(text = "変更")
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun PreviewConfirmSchedule() {
-    ConfirmSchedule(navController = rememberNavController())
 }
