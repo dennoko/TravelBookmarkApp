@@ -45,8 +45,27 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(navController = navController, startDestination = "test") {
                         composable("test") { TestScreen(navController = navController) }
-                        composable("inputschedule") { InputSchedule(navController = navController) }
                         composable("travellist") { TravelList(navController = navController) }
+                        composable(
+                            "inputschedule/{title}/{departure}/{depYear}/{depMonth}/{depDay}/{depHour}/{depMinute}/{destination}/{desYear}/{desMonth}/{desDay}/{desHour}/{desMinute}/{todoList}/{documentID}",
+                            arguments = listOf(
+                                navArgument("title") { defaultValue = "" },
+                                navArgument("departure") { defaultValue = "" },
+                                navArgument("depYear") { defaultValue = "2023" },
+                                navArgument("depMonth") { defaultValue = "" },
+                                navArgument("depDay") { defaultValue = "" },
+                                navArgument("depHour") { defaultValue = "" },
+                                navArgument("depMinute") { defaultValue = "" },
+                                navArgument("destination") { defaultValue = "" },
+                                navArgument("desYear") { defaultValue = "2023" },
+                                navArgument("desMonth") { defaultValue = "" },
+                                navArgument("desDay") { defaultValue = "" },
+                                navArgument("desHour") { defaultValue = "" },
+                                navArgument("desMinute") { defaultValue = "" },
+                                navArgument("todoList") { defaultValue = "" },
+                                navArgument("documentID") { defaultValue = "" }
+                            )
+                        ) { InputSchedule(navController = navController) }
                         composable(
                             "confirmschedule/{title}/{departure}/{depYear}/{depMonth}/{depDay}/{depHour}/{depMinute}/{destination}/{desYear}/{desMonth}/{desDay}/{desHour}/{desMinute}/{todoList}",
                             arguments = listOf(
