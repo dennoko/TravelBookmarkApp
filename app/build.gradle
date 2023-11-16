@@ -1,9 +1,13 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 
     // Firebase用のプラグイン
     id 'com.google.gms.google-services'
+
+    //Room用のプラグイン
+    id 'kotlin-kapt'
 }
 
 android {
@@ -13,7 +17,7 @@ android {
     defaultConfig {
         applicationId "com.example.travelbookmarkapp"
         minSdk 26
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -40,7 +44,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.4.2'
+        kotlinCompilerExtensionVersion '1.5.0'
     }
     packagingOptions {
         resources {
@@ -73,11 +77,19 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
 
     // Navigation Compose 画面遷移用のやつ
-    def nav_version = "2.5.3"
+    def nav_version = "2.7.5"
     implementation "androidx.navigation:navigation-compose:$nav_version"
 
     // Firebase用のライブラリ
     implementation platform('com.google.firebase:firebase-bom:32.5.0')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-firestore'
+
+    //Roomに必要な何か
+    def room_version = "2.6.0" // 2.6.0にする必要あるかも?
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$room_version")
+    implementation 'androidx.room:room-ktx:2.6.0'
 }
