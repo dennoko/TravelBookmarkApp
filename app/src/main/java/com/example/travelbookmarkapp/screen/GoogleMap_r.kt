@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
@@ -32,68 +33,10 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.InputStream
-
-//@Composable
-//fun photoOnMap(context: Context) {
-//    val singapore = LatLng(1.35, 103.87)
-//
-//    val cameraPositionState = rememberCameraPositionState {
-//        position = CameraPosition.fromLatLngZoom(singapore, 10f)
-//    }
-//
-//    var markers = remember { mutableStateListOf<LatLng>() }
-//
-//    var imageUris by remember { mutableStateOf<List<Uri>>(emptyList()) }
-//
-//    val getContent = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-//        if (uri != null) {
-//            imageUris = imageUris + uri
-//        }
-//    }
-//
-//    var zoom by remember { mutableStateOf(cameraPositionState.position.zoom.toInt()) }
-//    zoom = cameraPositionState.position.zoom.toInt()
-//    val newWidth = 10 * zoom
-//    val newHeight = 10 * zoom
-//
-//    GoogleMap(
-//        modifier = Modifier.fillMaxSize(),
-//        cameraPositionState = cameraPositionState,
-//        onMapClick = { clickPosition ->
-//            markers.add(clickPosition)
-//        }
-//    ) {
-//        // 既存のマーカーを表示
-//        markers.forEachIndexed { index, markerPosition ->
-//            val imageUri = if (index < imageUris.size) imageUris[index] else null
-//            val resizedBitmap = imageUri?.let { uri ->
-//                getBitmapFromUri(uri, context)?.let { Bitmap.createScaledBitmap(it, newWidth, newHeight, false) }
-//            }
-//            val resizedIcon = resizedBitmap?.let { BitmapDescriptorFactory.fromBitmap(it) }
-//
-//            Marker(
-//                state = MarkerState(position = markerPosition),
-//                title = "シンガポール",
-//                snippet = "ここはシンガポール",
-//                icon = resizedIcon,
-//                onInfoWindowClick = { getContent.launch("image/*") }
-//            )
-//        }
-//    }
-//}
-//
-//
-//
-//
-//// URIからビットマップを取得するメソッド
-//@Composable
-//fun getBitmapFromUri(uri: Uri, context: Context): Bitmap? {
-//    val inputStream: InputStream? =context.contentResolver.openInputStream(uri)
-//    return BitmapFactory.decodeStream(inputStream)
-//}
 
 @Composable
 fun photoOnMap(context: Context, database: Database_marker) {
@@ -117,13 +60,15 @@ fun photoOnMap(context: Context, database: Database_marker) {
         position = CameraPosition.fromLatLngZoom(singapore, 10f)
     }
 
-    var markers = remember { mutableStateListOf<LatLng>() }
-
     var imageUris by remember { mutableStateOf<List<Uri>>(emptyList()) }
+    // 保存用のuri
+    var saveUri: Uri? by remember { mutableStateOf(null) }
 
     val getContent = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         if (uri != null) {
             imageUris = imageUris + uri
+
+            saveUri = uri
         }
     }
 
@@ -138,14 +83,25 @@ fun photoOnMap(context: Context, database: Database_marker) {
         onMapClick = { clickPosition ->
             coroutineScope.launch {
                 withContext(Dispatchers.IO) {
-                    val photoId = database.addPhoto(Lat = clickPosition.latitude, Lng = clickPosition.longitude, uri = null)
+                    database.addPhoto(Lat = clickPosition.latitude, Lng = clickPosition.longitude, uri = null)
                 }
             }
         }
     ) {
         // 既存のマーカーを表示
         photoList.forEachIndexed { index, markerPosition ->
-            val imageUri = if (index < imageUris.size) imageUris[index] else null
+            // uriをroomから取得
+            var imageUri: Uri? = null
+            coroutineScope.launch {
+                withContext(Dispatchers.IO) {
+                    // 緯度と経度を元に、Entity_markerのuriを取得する
+                    val uri = database.daoMarker().getUriByLatLng(markerPosition.latitude!!, markerPosition.longitude!!)
+                    if (uri != null) {
+                        Log.d("hoge", "uri$index: $uri")
+                        imageUri = Uri.parse(uri)
+                    }
+                }
+            }
             val resizedBitmap = imageUri?.let { uri ->
                 getBitmapFromUri(uri, context)?.let { Bitmap.createScaledBitmap(it, newWidth, newHeight, false) }
             }
@@ -158,13 +114,31 @@ fun photoOnMap(context: Context, database: Database_marker) {
                 title = "シンガポール",
                 snippet = "タップして写真を追加",
                 icon = resizedIcon,
-                onInfoWindowClick = { getContent.launch("image/*") }
+                onInfoWindowClick = {
+                    getContent.launch("image/*")
+
+                    coroutineScope.launch {
+                        withContext(Dispatchers.IO) {
+                            val id = database.daoMarker().getIdByLatLng(markerPosition.latitude, markerPosition.longitude)
+                            Log.d("hoge", "get id: $id")
+
+                            // saveUri がnullでなくなるまで待つ
+                            while (saveUri == null) {
+                                delay(100)
+                            }
+
+                            // idを元に、対象のデータにuriを追加する
+                            if (id != null) {
+                                Log.d("hoge", "save uri: $saveUri")
+                                database.daoMarker().updateUri(id, saveUri.toString())
+                            }
+                        }
+                    }
+                }
             )
         }
     }
 }
-
-
 
 
 // URIからビットマップを取得するメソッド
