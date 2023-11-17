@@ -17,7 +17,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.travelbookmarkapp.Room.Database_marker
+import com.example.travelbookmarkapp.screen.ConfirmEditSchedule
 import com.example.travelbookmarkapp.screen.ConfirmSchedule
+import com.example.travelbookmarkapp.screen.EditSchedule
 import com.example.travelbookmarkapp.screen.InputSchedule
 import com.example.travelbookmarkapp.screen.ScheduleDetail
 import com.example.travelbookmarkapp.screen.TestScreen
@@ -43,8 +45,8 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(navController = navController, startDestination = "test") {
                         composable("test") { TestScreen(navController = navController) }
-                        composable("inputschedule") { InputSchedule(navController = navController) }
                         composable("travellist") { TravelList(navController = navController) }
+                        composable("inputschedule") { InputSchedule(navController = navController) }
                         composable(
                             "confirmschedule/{title}/{departure}/{depYear}/{depMonth}/{depDay}/{depHour}/{depMinute}/{destination}/{desYear}/{desMonth}/{desDay}/{desHour}/{desMinute}/{todoList}",
                             arguments = listOf(
@@ -61,7 +63,7 @@ class MainActivity : ComponentActivity() {
                                 navArgument("desDay") { defaultValue = "" },
                                 navArgument("desHour") { defaultValue = "" },
                                 navArgument("desMinute") { defaultValue = "" },
-                                navArgument("todoList") { defaultValue = "" }
+                                navArgument("todoList") { defaultValue = "" },
                             )
                         ) { ConfirmSchedule(navController = navController) }
                         composable(
@@ -85,6 +87,44 @@ class MainActivity : ComponentActivity() {
                             )
                         ) { ScheduleDetail(navController = navController) }
                         composable("r_GoogleMap"){ photoOnMap(context = context, appDatabase)}
+                        composable("editschedule/{title}/{departure}/{depYear}/{depMonth}/{depDay}/{depHour}/{depMinute}/{destination}/{desYear}/{desMonth}/{desDay}/{desHour}/{desMinute}/{todoList}/{documentID}",
+                            arguments = listOf(
+                                navArgument("title") { defaultValue = "" },
+                                navArgument("departure") { defaultValue = "" },
+                                navArgument("depYear") { defaultValue = "" },
+                                navArgument("depMonth") { defaultValue = "" },
+                                navArgument("depDay") { defaultValue = "" },
+                                navArgument("depHour") { defaultValue = "" },
+                                navArgument("depMinute") { defaultValue = "" },
+                                navArgument("destination") { defaultValue = "" },
+                                navArgument("desYear") { defaultValue = "" },
+                                navArgument("desMonth") { defaultValue = "" },
+                                navArgument("desDay") { defaultValue = "" },
+                                navArgument("desHour") { defaultValue = "" },
+                                navArgument("desMinute") { defaultValue = "" },
+                                navArgument("todoList") { defaultValue = "" },
+                                navArgument("documentID") { defaultValue = "" }
+                            )
+                        ) { EditSchedule(navController = navController) }
+                        composable("confirmeditschedule/{title}/{departure}/{depYear}/{depMonth}/{depDay}/{depHour}/{depMinute}/{destination}/{desYear}/{desMonth}/{desDay}/{desHour}/{desMinute}/{todoList}/{documentID}",
+                            arguments = listOf(
+                                navArgument("title") { defaultValue = "" },
+                                navArgument("departure") { defaultValue = "" },
+                                navArgument("depYear") { defaultValue = "" },
+                                navArgument("depMonth") { defaultValue = "" },
+                                navArgument("depDay") { defaultValue = "" },
+                                navArgument("depHour") { defaultValue = "" },
+                                navArgument("depMinute") { defaultValue = "" },
+                                navArgument("destination") { defaultValue = "" },
+                                navArgument("desYear") { defaultValue = "" },
+                                navArgument("desMonth") { defaultValue = "" },
+                                navArgument("desDay") { defaultValue = "" },
+                                navArgument("desHour") { defaultValue = "" },
+                                navArgument("desMinute") { defaultValue = "" },
+                                navArgument("todoList") { defaultValue = "" },
+                                navArgument("documentID") { defaultValue = "" }
+                            )
+                        ) { ConfirmEditSchedule(navController = navController) }
                     }
                 }
             }

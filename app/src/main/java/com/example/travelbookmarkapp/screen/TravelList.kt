@@ -23,7 +23,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.travelbookmarkapp.firebase_components.FirestoreViewModel
 import com.example.travelbookmarkapp.firebase_components.loadTravelListViewModel
 import com.example.travelbookmarkapp.ui_components.DefaultButton
 import com.example.travelbookmarkapp.ui_components.TravelItem
