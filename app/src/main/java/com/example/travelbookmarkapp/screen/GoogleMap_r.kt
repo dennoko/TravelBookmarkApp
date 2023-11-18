@@ -60,14 +60,11 @@ fun photoOnMap(context: Context, database: Database_marker) {
         position = CameraPosition.fromLatLngZoom(singapore, 10f)
     }
 
-    var imageUris by remember { mutableStateOf<List<Uri>>(emptyList()) }
     // 保存用のuri
     var saveUri: Uri? by remember { mutableStateOf(null) }
 
     val getContent = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         if (uri != null) {
-            imageUris = imageUris + uri
-
             saveUri = uri
         }
     }
