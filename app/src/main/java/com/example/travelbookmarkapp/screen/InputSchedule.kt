@@ -59,7 +59,8 @@ fun InputSchedule(navController: NavController) {
     //全ての入力欄が空でないかどうか
     var allNotEmpty = title.isNotBlank() && departure.isNotBlank() && depYear.isNotBlank() && depMonth.isNotBlank()
             && depDay.isNotBlank() && depHour.isNotBlank() && depMinute.isNotBlank() && destination.isNotBlank()
-            && desYear.isNotBlank() && desMonth.isNotBlank() && desDay.isNotBlank() && desHour.isNotBlank() && desMinute.isNotBlank()
+            && desYear.isNotBlank() && desMonth.isNotBlank() && desDay.isNotBlank() && desHour.isNotBlank()
+            && desMinute.isNotBlank() && todoList.isNotEmpty()
 
     Column(
         modifier = Modifier.fillMaxSize(),
