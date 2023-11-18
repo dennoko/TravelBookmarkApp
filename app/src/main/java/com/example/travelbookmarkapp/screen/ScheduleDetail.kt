@@ -59,6 +59,10 @@ fun ScheduleDetail(navController: NavController) {
             Text(text = it)
         }
 
+        Button(onClick = { navController.navigate("r_GoogleMap") }) {
+            Text(text = "地図を表示")
+        }
+
         Row (
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
