@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -54,6 +55,7 @@ fun InputSchedule(navController: NavController) {
     var todoTitle by remember { mutableStateOf("") }
     var todoList by remember { mutableStateOf(listOf<String>()) }
 
+    //画面の幅を取得
     val screenWidth = LocalConfiguration.current.screenWidthDp
 
     //全ての入力欄が空でないかどうか
