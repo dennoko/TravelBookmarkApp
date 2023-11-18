@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
         val context: Context = applicationContext
         appDatabase = Database_marker.getDB(this)
         setContent {
-            TravelBookmarkAppTheme {
+            TravelBookmarkAppTheme(darkTheme = false) {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
