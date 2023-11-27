@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "800675493328",
+    "project_id": "mapsapplication-b1868",
+    "storage_bucket": "mapsapplication-b1868.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:800675493328:android:d30ac73bb2e5e0542875d5",
+        "android_client_info": {
+          "package_name": "com.example.todocomposeapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4JJcad5hOVp6FuQnWcR8r_x8DJgwu2Js"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:800675493328:android:d1b395869c5e1f1e2875d5",
+        "android_client_info": {
+          "package_name": "com.example.travelbookmarkapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4JJcad5hOVp6FuQnWcR8r_x8DJgwu2Js"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:800675493328:android:ead595c13e2a27462875d5",
+        "android_client_info": {
+          "package_name": "com.websarva.wings.android.todocomposeapplication2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4JJcad5hOVp6FuQnWcR8r_x8DJgwu2Js"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
