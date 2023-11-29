@@ -9,9 +9,17 @@ import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -21,6 +29,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import com.example.travelbookmarkapp.Room.Database_marker
 import com.example.travelbookmarkapp.Room.Entity_marker
 import com.example.travelbookmarkapp.ui.theme.TravelBookmarkAppTheme
@@ -38,6 +48,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.InputStream
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun photoOnMap(context: Context, database: Database_marker) {
     val singapore = LatLng(1.35, 103.87)
@@ -49,11 +60,15 @@ fun photoOnMap(context: Context, database: Database_marker) {
     val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
+        Log.d("tag", "start")
         withContext(Dispatchers.IO) {
             database.daoMarker().getAll().collect() {
+                Log.d("tag", "開始")
                 photoList = it
+                Log.d("tag", "$it")
             }
         }
+        Log.d("tag", "finish")
     }
 
     val cameraPositionState = rememberCameraPositionState {
@@ -85,6 +100,7 @@ fun photoOnMap(context: Context, database: Database_marker) {
                 withContext(Dispatchers.IO) {
                     database.addPhoto(Lat = clickPosition.latitude, Lng = clickPosition.longitude, uri = null)
                 }
+                Log.d("tag","$clickPosition")
             }
         }
     ) {
@@ -109,22 +125,34 @@ fun photoOnMap(context: Context, database: Database_marker) {
 
             val markerPosition = LatLng(markerPosition.latitude!!, markerPosition.longitude!!)
 
+            var bottomBar by remember { mutableStateOf(false) }
+            if(bottomBar){
+                launchBottomBar()
+            }
+
             Marker(
                 state = MarkerState(position = markerPosition),
                 title = "シンガポール",
                 snippet = "タップして写真を追加",
                 icon = resizedIcon,
                 onInfoWindowClick = {
+                                    bottomBar = !bottomBar
+                },
+                onInfoWindowLongClick = {
                     getContent.launch("image/*")
 
                     coroutineScope.launch {
                         withContext(Dispatchers.IO) {
                             val id = database.daoMarker().getIdByLatLng(markerPosition.latitude, markerPosition.longitude)
-                            Log.d("hoge", "get id: $id")
 
                             // saveUri がnullでなくなるまで待つ
                             while (saveUri == null) {
                                 delay(100)
+                            }
+
+                            val entity = database.daoMarker().getEntityById(id!!)
+                            if (entity != null) {
+                                entity.uri = entity.uri + " " + saveUri.toString()
                             }
 
                             // idを元に、対象のデータにuriを追加する
@@ -146,4 +174,43 @@ fun photoOnMap(context: Context, database: Database_marker) {
 fun getBitmapFromUri(uri: Uri, context: Context): Bitmap? {
     val inputStream: InputStream? =context.contentResolver.openInputStream(uri)
     return BitmapFactory.decodeStream(inputStream)
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun launchBottomBar(){
+    Scaffold(
+        bottomBar = {
+            BottomAppBar(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.primary,
+            ) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    text = "Bottom app bar",
+                )
+            }
+        }
+    ) {
+            innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(innerPadding),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            Text(
+                modifier = Modifier.padding(8.dp),
+                text =
+                """
+                    This is an example of a scaffold. It uses the Scaffold composable's parameters to create a screen with a simple top app bar, bottom app bar, and floating action button.
+
+                    It also contains some basic inner content, such as this text.
+
+                    You have pressed the floating action button  times.
+                """.trimIndent(),
+            )
+        }
+    }
 }
