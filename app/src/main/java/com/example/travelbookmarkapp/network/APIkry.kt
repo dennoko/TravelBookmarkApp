@@ -14,7 +14,7 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 
-//https://maps.googleapis.com/maps/api/directions/json?origin=東京駅&destination=スカイツリー&key=
+//https://maps.googleapis.com/maps/api/directions/json?origin=東京駅&destination=スカイツリー&key=AIzaSyD-pe2PbCI5MK_tAuRmxs-_z09d8njZRMk
 private const val BASE_URL =
     "https://maps.googleapis.com/maps/api/directions/"
 private val retrofit = Retrofit.Builder()
@@ -37,8 +37,8 @@ object MarsApi {
 
 sealed interface MarsUiState {
     data class Success(val photos: GooglePlacesInfo) : MarsUiState
-    data object Error : MarsUiState
-    data object Loading : MarsUiState
+    object Error : MarsUiState
+    object Loading : MarsUiState
 }
 
 class MarsViewModel : ViewModel() {
@@ -62,7 +62,7 @@ class MarsViewModel : ViewModel() {
         val listResult = MarsApi.retrofitService.getPhotos().routes
 
         val pointsList: List<String> = listResult.flatMap { it.overview_polyline.points.split(",") }
-        Log.d("error23", "ww${pointsList}")
+        Log.d("error44", "ee")
         marsUiState = pointsList
 
 
