@@ -46,6 +46,9 @@ fun TravelList(navController: NavController) {
         horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(16.dp))
+        //InputScheduleに移動
+        DefaultButton(txt = "add new travel") { navController.navigate("inputschedule") }
+
         if (travelList.isNotEmpty()) {
             LazyColumn{
                 items(travelList) { travelData ->
@@ -66,8 +69,6 @@ fun TravelList(navController: NavController) {
             Text(text = "旅行の予定はありません")
         }
 
-        //InputScheduleに移動
-        DefaultButton(txt = "add new travel") { navController.navigate("inputschedule") }
     }
 }
 
