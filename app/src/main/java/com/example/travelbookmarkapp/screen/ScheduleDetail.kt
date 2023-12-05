@@ -59,7 +59,7 @@ fun ScheduleDetail(navController: NavController) {
             Text(text = it)
         }
 
-        Button(onClick = { navController.navigate("r_GoogleMap") }) {
+        Button(onClick = { navController.navigate("II_GoogleMap") }) {
             Text(text = "地図を表示")
         }
 
