@@ -1,6 +1,7 @@
 package com.example.travelbookmarkapp.Room
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -25,8 +26,10 @@ abstract class Database_marker: RoomDatabase() {
     }
 
     suspend fun addPhoto(Lat: Double, Lng: Double, uri: String?) {
+        Log.d("tag", "動作")
         val newPhoto = Entity_marker(latitude = Lat, longitude = Lng, uri = uri)
-        daoMarker().insertPhoto(newPhoto)
+        daoMarker().updatePhoto(newPhoto)
+        Log.d("tag", "$newPhoto")
     }
 
 }
