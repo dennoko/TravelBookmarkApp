@@ -121,6 +121,8 @@ fun GoogleMap_r_refactoring(db: Database_marker) {
                     Log.d("methodTest", "save uri add Database: $saveUri")
                     db.daoMarker().updateUri(id, saveUriStr!!)
                 }
+
+                saveUri = null
             }
         }
     }
