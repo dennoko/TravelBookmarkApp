@@ -28,8 +28,7 @@ abstract class Database_marker: RoomDatabase() {
     suspend fun addPhoto(Lat: Double, Lng: Double, uri: String?) {
         Log.d("tag", "動作")
         val newPhoto = Entity_marker(latitude = Lat, longitude = Lng, uri = uri)
-        daoMarker().updatePhoto(newPhoto)
+        daoMarker().insertPhoto(newPhoto)
         Log.d("tag", "$newPhoto")
     }
-
 }
