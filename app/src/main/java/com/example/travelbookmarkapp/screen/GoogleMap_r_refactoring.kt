@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -19,6 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.example.travelbookmarkapp.Room.Database_marker
 import com.example.travelbookmarkapp.Room.Entity_marker
+import com.example.travelbookmarkapp.network.MarsApi
+import com.example.travelbookmarkapp.network.MarsViewModel
 import com.example.travelbookmarkapp.ui_components.ImagesWindow
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -34,13 +37,18 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @Composable
-fun GoogleMap_r_refactoring(db: Database_marker, name: List<String>) {
+fun GoogleMap_r_refactoring(db: Database_marker, name: List<String>,VM: MarsViewModel) {
     // Google Map 用の変数
     val tokyo = LatLng(35.681167, 139.767052)
     // マップの初期位置を設定
     val cameraPositionState = rememberCameraPositionState() {
         position = CameraPosition.fromLatLngZoom(tokyo, 10f)
     }
+    VM.origin = "東京駅"
+    VM.destination = "東京スカイツリー"
+
+
+
     // マップをタップした時の位置情報を取得
     val coroutineScope = rememberCoroutineScope()
     fun onMapClick(latLng: LatLng) {
@@ -65,6 +73,7 @@ fun GoogleMap_r_refactoring(db: Database_marker, name: List<String>) {
     }
     val polylinePoints = name
         .flatMap { PolyUtil.decode(it) }
+
 
     DisposableEffect(name) {
         onDispose {

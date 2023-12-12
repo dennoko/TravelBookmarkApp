@@ -87,7 +87,7 @@ class MainActivity : ComponentActivity() {
                         ) { ScheduleDetail(navController = navController) }
 
                         //composable("r_GoogleMap"){ photoOnMap(context = context, appDatabase)}
-                        composable("r_GoogleMap") { GoogleMap_r_refactoring(db = appDatabase, name = marsViewModel.marsUiState)}
+                        composable("r_GoogleMap") { GoogleMap_r_refactoring(db = appDatabase,name = marsViewModel.marsUiState,VM = marsViewModel)}
 
                         composable("editschedule/{title}/{departure}/{depYear}/{depMonth}/{depDay}/{depHour}/{depMinute}/{destination}/{desYear}/{desMonth}/{desDay}/{desHour}/{desMinute}/{todoList}/{documentID}",
                             arguments = listOf(
