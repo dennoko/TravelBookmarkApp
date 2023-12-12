@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -17,8 +18,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.travelbookmarkapp.Room.Database_marker
+import com.example.travelbookmarkapp.network.MarsViewModel
 import com.example.travelbookmarkapp.screen.ConfirmEditSchedule
 import com.example.travelbookmarkapp.screen.ConfirmSchedule
+import com.example.travelbookmarkapp.screen.DirectionMap
 import com.example.travelbookmarkapp.screen.EditSchedule
 import com.example.travelbookmarkapp.screen.GoogleMap_r_refactoring
 import com.example.travelbookmarkapp.screen.InputSchedule
@@ -43,6 +46,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     //画面遷移用のコード
                     val navController = rememberNavController()
+                    val marsViewModel: MarsViewModel by viewModels()
 
                     NavHost(navController = navController, startDestination = "test") {
                         composable("test") { TestScreen(navController = navController) }
@@ -87,8 +91,10 @@ class MainActivity : ComponentActivity() {
                                 navArgument("documentID") { defaultValue = "" }
                             )
                         ) { ScheduleDetail(navController = navController) }
+
                         //composable("r_GoogleMap"){ photoOnMap(context = context, appDatabase)}
                         composable("r_GoogleMap") { GoogleMap_r_refactoring(db = appDatabase)}
+
                         composable("editschedule/{title}/{departure}/{depYear}/{depMonth}/{depDay}/{depHour}/{depMinute}/{destination}/{desYear}/{desMonth}/{desDay}/{desHour}/{desMinute}/{todoList}/{documentID}",
                             arguments = listOf(
                                 navArgument("title") { defaultValue = "" },
