@@ -11,12 +11,19 @@ interface Dao_marker {
     @Insert
     suspend fun insertPhoto(locateInfo: Entity_marker)
 
+    @Update
+    suspend fun updatePhoto(locateInfo: Entity_marker)
+
     @Query("SELECT * FROM Entity_marker")
     fun getAll(): Flow<List<Entity_marker>>
 
     // idを元に、対象のデータにuriを追加する
     @Query("UPDATE Entity_marker SET uri = :uri WHERE id = :id")
     suspend fun updateUri(id: Int, uri: String)
+
+    @Query("SELECT * FROM Entity_marker WHERE id = :id")
+    suspend fun getEntityById(id: Int): Entity_marker?
+
 
     // 緯度と経度を元に、Entity_markerのuriを取得する
     @Query("SELECT uri FROM Entity_marker WHERE latitude = :latitude AND longitude = :longitude LIMIT 1")

@@ -11,5 +11,6 @@ data class Entity_marker (
     val id: Int = 0,
     val latitude: Double?,
     val longitude: Double?,
-    val uri: String?
+    var uri: String?,
+
 )

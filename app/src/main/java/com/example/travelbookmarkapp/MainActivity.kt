@@ -23,6 +23,7 @@ import com.example.travelbookmarkapp.screen.ConfirmEditSchedule
 import com.example.travelbookmarkapp.screen.ConfirmSchedule
 import com.example.travelbookmarkapp.screen.DirectionMap
 import com.example.travelbookmarkapp.screen.EditSchedule
+import com.example.travelbookmarkapp.screen.GoogleMap_r_refactoring
 import com.example.travelbookmarkapp.screen.InputSchedule
 import com.example.travelbookmarkapp.screen.ScheduleDetail
 import com.example.travelbookmarkapp.screen.TestScreen
@@ -90,8 +91,10 @@ class MainActivity : ComponentActivity() {
                                 navArgument("documentID") { defaultValue = "" }
                             )
                         ) { ScheduleDetail(navController = navController) }
-                        composable("r_GoogleMap"){ photoOnMap(context = context, appDatabase)}
-                        composable("II_GoogleMap"){ DirectionMap(marsViewModel.marsUiState)}
+
+                        //composable("r_GoogleMap"){ photoOnMap(context = context, appDatabase)}
+                        composable("r_GoogleMap") { GoogleMap_r_refactoring(db = appDatabase)}
+
                         composable("editschedule/{title}/{departure}/{depYear}/{depMonth}/{depDay}/{depHour}/{depMinute}/{destination}/{desYear}/{desMonth}/{desDay}/{desHour}/{desMinute}/{todoList}/{documentID}",
                             arguments = listOf(
                                 navArgument("title") { defaultValue = "" },
