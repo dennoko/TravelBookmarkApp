@@ -5,14 +5,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -21,14 +17,12 @@ import com.example.travelbookmarkapp.Room.Database_marker
 import com.example.travelbookmarkapp.network.MarsViewModel
 import com.example.travelbookmarkapp.screen.ConfirmEditSchedule
 import com.example.travelbookmarkapp.screen.ConfirmSchedule
-import com.example.travelbookmarkapp.screen.DirectionMap
 import com.example.travelbookmarkapp.screen.EditSchedule
 import com.example.travelbookmarkapp.screen.GoogleMap_r_refactoring
 import com.example.travelbookmarkapp.screen.InputSchedule
 import com.example.travelbookmarkapp.screen.ScheduleDetail
 import com.example.travelbookmarkapp.screen.TestScreen
 import com.example.travelbookmarkapp.screen.TravelList
-import com.example.travelbookmarkapp.screen.photoOnMap
 import com.example.travelbookmarkapp.ui.theme.TravelBookmarkAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -93,7 +87,7 @@ class MainActivity : ComponentActivity() {
                         ) { ScheduleDetail(navController = navController) }
 
                         //composable("r_GoogleMap"){ photoOnMap(context = context, appDatabase)}
-                        composable("r_GoogleMap") { GoogleMap_r_refactoring(db = appDatabase)}
+                        composable("r_GoogleMap") { GoogleMap_r_refactoring(db = appDatabase, name = marsViewModel.marsUiState)}
 
                         composable("editschedule/{title}/{departure}/{depYear}/{depMonth}/{depDay}/{depHour}/{depMinute}/{destination}/{desYear}/{desMonth}/{desDay}/{desHour}/{desMinute}/{todoList}/{documentID}",
                             arguments = listOf(

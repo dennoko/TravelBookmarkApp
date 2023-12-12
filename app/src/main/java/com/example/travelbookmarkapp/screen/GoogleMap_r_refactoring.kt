@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -15,14 +16,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import com.example.travelbookmarkapp.Room.Database_marker
 import com.example.travelbookmarkapp.Room.Entity_marker
 import com.example.travelbookmarkapp.ui_components.ImagesWindow
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.PolyUtil
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
+import com.google.maps.android.compose.Polyline
 import com.google.maps.android.compose.rememberCameraPositionState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -30,7 +34,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @Composable
-fun GoogleMap_r_refactoring(db: Database_marker) {
+fun GoogleMap_r_refactoring(db: Database_marker, name: List<String>) {
     // Google Map 用の変数
     val tokyo = LatLng(35.681167, 139.767052)
     // マップの初期位置を設定
@@ -52,10 +56,20 @@ fun GoogleMap_r_refactoring(db: Database_marker) {
     }
 
 
+
+
     // データベースから保存済みの位置情報を取得
     // データのリスト
     var markerList by remember {
         mutableStateOf(emptyList<Entity_marker>())
+    }
+    val polylinePoints = name
+        .flatMap { PolyUtil.decode(it) }
+
+    DisposableEffect(name) {
+        onDispose {
+            // クリーンアップ
+        }
     }
     // 非同期でデータベースからデータを取得
     LaunchedEffect(Unit) {
@@ -190,7 +204,13 @@ fun GoogleMap_r_refactoring(db: Database_marker) {
                         Log.d("methodTest", "End onInfoWindowLongClick")
                     }
                 )
+
             }
+            Polyline(
+                points = polylinePoints,
+                color = Color.Blue,
+                zIndex = 1f
+            )
         }
 
         // ImagesWindow
