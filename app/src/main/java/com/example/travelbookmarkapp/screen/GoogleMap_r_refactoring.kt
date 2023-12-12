@@ -47,7 +47,7 @@ fun GoogleMap_r_refactoring(db: Database_marker, name: List<String>,VM: MarsView
     VM.origin = "東京駅"
     VM.destination = "東京スカイツリー"
 
-
+//もうやばい
 
     // マップをタップした時の位置情報を取得
     val coroutineScope = rememberCoroutineScope()
