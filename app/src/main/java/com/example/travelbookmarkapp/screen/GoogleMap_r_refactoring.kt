@@ -3,6 +3,7 @@ package com.example.travelbookmarkapp.screen
 import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -80,19 +81,35 @@ fun GoogleMap_r_refactoring(db: Database_marker) {
     var markerInfo: Entity_marker? by remember { mutableStateOf(null) }
 
 
+//    // 画像の追加を行う関数
+//    // 保存するURIを格納する変数
+//    var saveUri: Uri? by remember { mutableStateOf(null) }
+//    // 画像の追加を行う関数
+//    val getContent = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { photoUri: Uri? ->
+//        if (photoUri != null) {
+//            saveUri = photoUri
+//            Log.d("methodTest", "saveUri: $saveUri")
+//        }
+//    }
+//
+//    fun addPhoto(latLng: LatLng) {
+//        getContent.launch("image/*")
+
     // 画像の追加を行う関数
     // 保存するURIを格納する変数
-    var saveUri: Uri? by remember { mutableStateOf(null) }
+    var saveUriList: List<@JvmSuppressWildcards Uri>? by remember { mutableStateOf(null) }
+    //
+    val pickMediaRequest = PickVisualMediaRequest()
     // 画像の追加を行う関数
-    val getContent = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { photoUri: Uri? ->
+    val getContent = rememberLauncherForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) { photoUri: List<@JvmSuppressWildcards Uri> ->
         if (photoUri != null) {
-            saveUri = photoUri
-            Log.d("methodTest", "saveUri: $saveUri")
+            saveUriList = photoUri
+            Log.d("saveUri", "saveUri: $saveUriList")
         }
     }
 
     fun addPhoto(latLng: LatLng) {
-        getContent.launch("image/*")
+        getContent.launch(pickMediaRequest)
 
         // 非同期でデータベースに画像のURIを保存
         coroutineScope.launch {
@@ -102,7 +119,7 @@ fun GoogleMap_r_refactoring(db: Database_marker) {
 
                 // saveUriがnullでなくなるまで待機
                 Log.d("methodTest", "waiting")
-                while(saveUri == null ) {
+                while(saveUriList == null ) {
                     delay(100)
                 }
                 Log.d("methodTest", "end waiting")
@@ -113,16 +130,25 @@ fun GoogleMap_r_refactoring(db: Database_marker) {
                 var saveUriStr: String? = null
                 // エンティティのuriに画像のURIを追加
                 if(entity != null) {
-                    saveUriStr = entity.uri + " " + saveUri.toString()
+                    var addUriStr: String = ""
+
+                    //saveUriListの中身を1つのUriにする
+                    saveUriList?.let {
+                        saveUriList!!.forEach { uri ->
+                            addUriStr += " " + uri
+                        }
+                    }
+
+                    saveUriStr = entity.uri + addUriStr
                 }
 
                 // idを元に、対象のデータにuriを追加する
                 if(id != null && saveUriStr != null) {
-                    Log.d("methodTest", "save uri add Database: $saveUri")
+                    Log.d("methodTest", "save uri add Database: $saveUriList")
                     db.daoMarker().updateUri(id, saveUriStr!!)
                 }
 
-                saveUri = null
+                saveUriList = null
             }
         }
     }
