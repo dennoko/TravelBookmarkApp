@@ -2,6 +2,7 @@ package com.example.travelbookmarkapp
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -14,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.travelbookmarkapp.Room.Database_marker
+import com.example.travelbookmarkapp.directionAPI.DirectionVM
 import com.example.travelbookmarkapp.network.MarsViewModel
 import com.example.travelbookmarkapp.screen.ConfirmEditSchedule
 import com.example.travelbookmarkapp.screen.ConfirmSchedule
@@ -41,6 +43,7 @@ class MainActivity : ComponentActivity() {
                     //画面遷移用のコード
                     val navController = rememberNavController()
                     val marsViewModel: MarsViewModel by viewModels()
+                    val directionVM = DirectionVM()
 
                     NavHost(navController = navController, startDestination = "test") {
                         composable("test") { TestScreen(navController = navController) }
@@ -87,7 +90,10 @@ class MainActivity : ComponentActivity() {
                         ) { ScheduleDetail(navController = navController) }
 
                         //composable("r_GoogleMap"){ photoOnMap(context = context, appDatabase)}
-                        composable("r_GoogleMap") { GoogleMap_r_refactoring(db = appDatabase, name = marsViewModel.marsUiState)}
+                        composable("r_GoogleMap") {
+                            Log.d("methodTest", "navigate GoogleMap")
+                            GoogleMap_r_refactoring(db = appDatabase,name = directionVM.routePointsList,vm = directionVM)
+                        }
 
                         composable("editschedule/{title}/{departure}/{depYear}/{depMonth}/{depDay}/{depHour}/{depMinute}/{destination}/{desYear}/{desMonth}/{desDay}/{desHour}/{desMinute}/{todoList}/{documentID}",
                             arguments = listOf(

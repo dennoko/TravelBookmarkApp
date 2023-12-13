@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.example.travelbookmarkapp.Room.Database_marker
 import com.example.travelbookmarkapp.Room.Entity_marker
+import com.example.travelbookmarkapp.directionAPI.DirectionVM
 import com.example.travelbookmarkapp.ui_components.ImagesWindow
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -34,13 +35,17 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @Composable
-fun GoogleMap_r_refactoring(db: Database_marker, name: List<String>) {
+fun GoogleMap_r_refactoring(db: Database_marker, name: List<String>,vm: DirectionVM) {
+    Log.d("methodTest", "Enter GoogleMap")
     // Google Map 用の変数
     val tokyo = LatLng(35.681167, 139.767052)
     // マップの初期位置を設定
     val cameraPositionState = rememberCameraPositionState() {
         position = CameraPosition.fromLatLngZoom(tokyo, 10f)
     }
+
+//もうやばい
+
     // マップをタップした時の位置情報を取得
     val coroutineScope = rememberCoroutineScope()
     fun onMapClick(latLng: LatLng) {
@@ -66,6 +71,7 @@ fun GoogleMap_r_refactoring(db: Database_marker, name: List<String>) {
     val polylinePoints = name
         .flatMap { PolyUtil.decode(it) }
 
+
     DisposableEffect(name) {
         onDispose {
             // クリーンアップ
@@ -87,6 +93,14 @@ fun GoogleMap_r_refactoring(db: Database_marker, name: List<String>) {
         }
     }
 
+    LaunchedEffect(Unit) {
+        Log.d("methodTest", "enter second LaunchedEffect")
+        withContext(Dispatchers.IO) {
+            Log.d("methodTest", "vm.getDirection")
+            vm.getDirection("東京","東京スカイツリー")
+        }
+    }
+
 
     // 画像の表示関係
     // ImagesWindow の表示、非表示の管理
@@ -95,23 +109,9 @@ fun GoogleMap_r_refactoring(db: Database_marker, name: List<String>) {
     var markerInfo: Entity_marker? by remember { mutableStateOf(null) }
 
 
-//    // 画像の追加を行う関数
-//    // 保存するURIを格納する変数
-//    var saveUri: Uri? by remember { mutableStateOf(null) }
-//    // 画像の追加を行う関数
-//    val getContent = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { photoUri: Uri? ->
-//        if (photoUri != null) {
-//            saveUri = photoUri
-//            Log.d("methodTest", "saveUri: $saveUri")
-//        }
-//    }
-//
-//    fun addPhoto(latLng: LatLng) {
-//        getContent.launch("image/*")
-
     // 画像の追加を行う関数
     // 保存するURIを格納する変数
-    var saveUriList: List<@JvmSuppressWildcards Uri>? by remember { mutableStateOf(null) }
+    var saveUriList: List<Uri>? by remember { mutableStateOf(null) }
     //
     val pickMediaRequest = PickVisualMediaRequest()
     // 画像の追加を行う関数
@@ -206,6 +206,7 @@ fun GoogleMap_r_refactoring(db: Database_marker, name: List<String>) {
                 )
 
             }
+            Log.d("methodTest", "points: $polylinePoints")
             Polyline(
                 points = polylinePoints,
                 color = Color.Blue,
