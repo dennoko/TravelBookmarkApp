@@ -16,8 +16,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.http.Query
 
 //https://maps.googleapis.com/maps/api/directions/json?origin=東京駅&destination=スカイツリー&key=AIzaSyD-pe2PbCI5MK_tAuRmxs-_z09d8njZRMk
-private const val BASE_URL =
-    "https://maps.googleapis.com/maps/api/directions/"
+private const val BASE_URL = "https://maps.googleapis.com/maps/api/directions/"
 private val retrofit = Retrofit.Builder()
     .addConverterFactory(Json {
         ignoreUnknownKeys = true
@@ -25,13 +24,13 @@ private val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
     .build()
 
-interface MarsApiService {
+interface ApiService {
 
     val origin: String
     val destination: String
 
     @GET("json")
-    suspend fun getPhotos(
+    suspend fun getDirectionApi(
         @Query("origin") origin: String = this.origin,
         @Query("destination") destination: String = this.destination,
         @Query("key") apiKey: String = "AIzaSyD-pe2PbCI5MK_tAuRmxs-_z09d8njZRMk"
@@ -39,9 +38,9 @@ interface MarsApiService {
 }
 
 
-object MarsApi {
-    val retrofitService : MarsApiService by lazy {
-        retrofit.create(MarsApiService::class.java)
+object DirectionsApi {
+    val retrofitService : ApiService by lazy {
+        retrofit.create(ApiService::class.java)
     }
 }
 
@@ -64,7 +63,7 @@ class MarsViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 while(origin == "") {}
-                getMarsPhotos(origin, destination)
+                getDirection(origin, destination)
             } catch (e: Exception) {
                 Log.e("MarsViewModel", "Error: ${e.message}", e)
             }
@@ -73,11 +72,11 @@ class MarsViewModel : ViewModel() {
     }
 
 
-    private suspend fun getMarsPhotos(origin: String, destination: String) {
+    private suspend fun getDirection(origin: String, destination: String) {
 
             // API を呼び出し、ルートデータを取得
             val listResult =
-                MarsApi.retrofitService.getPhotos(origin = origin, destination = destination).routes
+                DirectionsApi.retrofitService.getDirectionApi(origin = origin, destination = destination).routes
             Log.d("error567", "${listResult}")
             // 取得したデータを加工してUI状態に設定
             val pointsList: List<String> =

@@ -16,6 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.travelbookmarkapp.directionAPI.DirectionVM
 import com.example.travelbookmarkapp.firebase_components.DeleteTravelDataViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -46,6 +47,7 @@ fun ScheduleDetail(navController: NavController) {
     val desMinute = arguments?.getString("desMinute").toString()
     val todoList = arguments?.getString("todoList").toString().split(", ")
     val documentID = arguments?.getString("documentID").toString()
+
 
     Column {
         // 詳細情報を表示
